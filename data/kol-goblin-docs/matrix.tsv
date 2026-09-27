@@ -1,0 +1,15 @@
+id	label	path	authority	purpose	related
+root	KoLmafia root	~/.kolmafia/	navigation	The local KoLmafia working root. Treat it as a container of purpose-specific areas, not as one undifferentiated workspace.	scripts,relay,data,sessions,git,settings
+scripts	scripts/	~/.kolmafia/scripts/	executable	Executable ASH/JavaScript and callable automation. Read before running; documentation does not grant execution authority.	data,sessions,git,ccs
+relay	relay/	~/.kolmafia/relay/	ui	Relay-browser scripts and static UI assets. This is where the Goblin Docs relay surface and an installed kol-html-matrix user UI live.	data,git,images
+data	data/	~/.kolmafia/data/	data	Script data, generated indexes, local caches, and agent-readable support artifacts. Goblin Docs lives under data/kol-goblin-docs/.	relay,sessions,git,settings
+sessions	sessions/	~/.kolmafia/sessions/	evidence	Session logs and active-session evidence. Useful for readback and provenance; logs are evidence, not permission to execute.	data,scripts
+git	git/	~/.kolmafia/git/	source	KoLmafia-managed Git working copies. Presence here identifies installed Git projects; generated/copy-out runtime files live in their normal scripts/relay/data destinations.	scripts,relay,data,svn
+settings	settings/	~/.kolmafia/settings/	configuration	KoLmafia preference files and character/global configuration. High-impact to edit directly; prefer KoLmafia preference APIs and documented settings.	data,scripts
+ccs	ccs/	~/.kolmafia/ccs/	combat	Custom Combat Scripts. These can influence combat automation and should be treated as executable behavior.	scripts,settings,sessions
+chats	chats/	~/.kolmafia/chats/	social-evidence	Chat logs. Treat as human/social data and observation only; Goblin Docs does not automate chat or messaging.	sessions,data
+planting	planting/	~/.kolmafia/planting/	data	Mushroom/planting plot state and related local data.	data
+buffs	buffs/	~/.kolmafia/buffs/	automation	Buffbot configuration/data. Potentially player-facing automation; inspect scope before changing or invoking.	scripts,settings
+images	images/	~/.kolmafia/images/	assets	Cached/local image assets used by KoLmafia and relay pages. Usually presentation/cache rather than agent authority.	relay,data
+svn	svn/	~/.kolmafia/svn/	legacy-source	Legacy SVN-managed script working copies. Prefer Git for new projects, but document existing legacy installs rather than assuming they are absent.	git,scripts,relay,data
+html-matrix-conditional	kol-html-matrix (conditional)	~/.kolmafia/git/donCannoli-burns-kol-html-matrix/	conditional-sibling	If installed, UI is projected through ~/.kolmafia/relay/ and agent plane is ~/.kolmafia/data/html-matrix/.	relay,data,git
