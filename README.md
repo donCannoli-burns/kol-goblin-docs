@@ -199,15 +199,15 @@ The directory map is grounded in current KoLmafia source constants (`buffs/`, `c
 
 MIT.
 
+## don_combo runtime context
 
-## Optional don_combo matrix trigger
+Goblin Docs remains the KoLmafia-local context owner for the don_combo shadow runtime. It writes `data/kol-goblin-docs/runtime.tsv` with native `map_to_file()`; it does not queue Python work, call WaterSheep, or authorize game actions.
 
-When `kol-ash-it-down` is also installed, a Goblin Docs refresh reason beginning with `combo` queues one local `don-combo-matrix-refresh` job under `data/doc_edit/inbox/`.
-
-Example:
+The don_combo callable wrapper may run:
 
 ```text
 kol-goblin-docs refresh combo-matrix
+kol-goblin-docs refresh combo-finished
 ```
 
-Goblin Docs remains the KoLmafia-side caller/context owner. It does not run WaterSheep itself and does not gain KoL execution authority from the job. The local `kol-ash-it-down` worker consumes the job and asks the installed `don_combo` bridge for one advisory snapshot.
+before invoking the typed TypeScript matrix runtime. This keeps context refresh and runtime execution as separate responsibilities.
