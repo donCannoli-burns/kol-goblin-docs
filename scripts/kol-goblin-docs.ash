@@ -17,6 +17,8 @@ void refresh_snapshot(string reason) {
     runtime["kolmafia_version"] = get_version();
     runtime["kolmafia_revision"] = to_string(get_revision());
     runtime["player"] = my_name();
+    runtime["player_id"] = to_string(my_id());
+    runtime["gameday"] = to_string(gameday_to_int());
     runtime["goblin_docs_git_installed"] = to_string(git_exists(PROJECT_ID));
     runtime["html_matrix_installed"] = to_string(git_exists(MATRIX_ID));
     runtime["html_matrix_git_path"] = "~/.kolmafia/git/donCannoli-burns-kol-html-matrix/";
