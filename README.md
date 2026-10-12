@@ -6,6 +6,8 @@
 
 The project is designed for KoLmafia's Git script installer and was built against the current **r29307** source/release shape on 2026-09-27.
 
+The generated `data/kol-goblin-docs/runtime.tsv` is also a small read-only runtime contract for sibling local tools. It includes the current player name, numeric `player_id`, KoL `gameday`, KoLmafia version/revision, installed-project observations, lifecycle settings, and the documentation/authority note. Consumers should treat it as context, never execution permission.
+
 ## Install
 
 In the KoLmafia gCLI:
