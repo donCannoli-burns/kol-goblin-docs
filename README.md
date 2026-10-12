@@ -198,3 +198,16 @@ The directory map is grounded in current KoLmafia source constants (`buffs/`, `c
 ## License
 
 MIT.
+
+
+## Optional don_combo matrix trigger
+
+When `kol-ash-it-down` is also installed, a Goblin Docs refresh reason beginning with `combo` queues one local `don-combo-matrix-refresh` job under `data/doc_edit/inbox/`.
+
+Example:
+
+```text
+kol-goblin-docs refresh combo-matrix
+```
+
+Goblin Docs remains the KoLmafia-side caller/context owner. It does not run WaterSheep itself and does not gain KoL execution authority from the job. The local `kol-ash-it-down` worker consumes the job and asks the installed `don_combo` bridge for one advisory snapshot.
