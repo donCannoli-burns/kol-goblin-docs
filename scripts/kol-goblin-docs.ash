@@ -1,5 +1,6 @@
 string PROJECT_ID = "donCannoli-burns-kol-goblin-docs";
 string MATRIX_ID = "donCannoli-burns-kol-html-matrix";
+string DOC_EDIT_ID = "donCannoli-burns-kol-ash-it-down";
 string LOGIN_WRAPPER = "call kol-goblin-docs.ash login";
 string LOGOUT_WRAPPER = "call kol-goblin-docs.ash logout";
 string PREV_LOGIN_PROP = "kolGoblinDocsPreviousLoginScript";
@@ -8,6 +9,31 @@ string PREV_LOGOUT_PROP = "kolGoblinDocsPreviousLogoutScript";
 string strip_ws(string value) {
     matcher edges = create_matcher("^\\s+|\\s+$", value);
     return replace_all(edges, "");
+}
+
+string goblin_job_id() {
+    return now_to_string("yyyyMMddHHmmss") + "-" + my_id() + "-" + random(1000000);
+}
+
+boolean queue_combo_matrix_refresh(string reason) {
+    if (!git_exists(DOC_EDIT_ID)) {
+        print("kol-goblin-docs: kol-ash-it-down is not installed; matrix refresh not queued.", "gray");
+        return false;
+    }
+
+    string id = goblin_job_id();
+    string json = "{";
+    json += "\"id\":\"" + id + "\",";
+    json += "\"correlation_id\":\"" + id + "\",";
+    json += "\"action\":\"don-combo-matrix-refresh\",";
+    json += "\"player\":\"" + my_name() + "\",";
+    json += "\"payload\":\"" + reason + "\"";
+    json += "}\n";
+
+    boolean ok = buffer_to_file(json.to_buffer(), "doc_edit/inbox/" + id + ".json");
+    if (ok) print("kol-goblin-docs: queued don_combo matrix refresh " + id + ".", "green");
+    else print("kol-goblin-docs: failed to queue don_combo matrix refresh.", "red");
+    return ok;
 }
 
 void refresh_snapshot(string reason) {
@@ -115,6 +141,7 @@ void help() {
     print("kol-goblin-docs commands:", "blue");
     print("  status                 Show install/runtime integration state");
     print("  refresh [reason]       Refresh data/kol-goblin-docs/runtime.tsv");
+    print("                         Reasons beginning with combo queue a one-shot matrix refresh");
     print("  setup                  Install login/logout wrappers + update-llm alias");
     print("  install-hooks          Install lifecycle wrappers while preserving prior settings");
     print("  remove-hooks           Restore preserved prior login/logout settings");
@@ -185,6 +212,7 @@ void main(string command) {
         if (length(cmd) > 7) reason = strip_ws(substring(cmd, 7));
         if (reason == "") reason = "manual";
         refresh_snapshot(reason);
+        if (starts_with(to_lower_case(reason), "combo")) queue_combo_matrix_refresh(reason);
         return;
     }
 
